@@ -3,7 +3,8 @@
     "id": 1,
     "module": "Pošiljke",
     "title": "Lista pošiljki_mmmm",
-    "text": "Ovde se prikazuju sve pošiljke. Koristite filter polja iznad svake kolone za pretragu po broju, statusu ili klijentu. Ukupan broj pošiljki vidite u zaglavlju."
+    "text": "Ovde se prikazuju sve pošiljke. Koristite filter polja iznad svake kolone za pretragu po broju, statusu ili klijentu. Ukupan broj pošiljki vidite u zaglavlju.",
+    "image": "https://tmsguidetourstorage.blob.core.windows.net/screenshots/step-1775379482556.png"
   },
   {
     "id": 2,
