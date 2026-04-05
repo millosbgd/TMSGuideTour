@@ -1,0 +1,10 @@
+{
+  "globalHeaders": {
+    "Access-Control-Allow-Origin": "*",
+    "Cache-Control": "no-cache"
+  },
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": ["/steps.json", "/bookmarklet.js", "*.css", "*.js"]
+  }
+}

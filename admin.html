@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noto TMS — Admin panel</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #f0f4f8;
+  min-height: 100vh;
+  padding: 2rem;
+}
+.header {
+  max-width: 860px;
+  margin: 0 auto 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo-dot { width: 10px; height: 10px; border-radius: 50%; background: #1D9E75; }
+.logo-text { font-size: 14px; font-weight: 700; color: #1a2332; letter-spacing: 0.04em; }
+.header-right { display: flex; align-items: center; gap: 12px; }
+.back-link {
+  font-size: 13px; color: #718096; text-decoration: none;
+  padding: 6px 14px; border: 1px solid #e2e8f0;
+  border-radius: 8px; transition: all 0.15s;
+}
+.back-link:hover { color: #1a2332; border-color: #cbd5e0; }
+.save-btn {
+  font-size: 13px; font-weight: 600; color: #fff;
+  background: #1D9E75; border: none;
+  padding: 8px 20px; border-radius: 8px;
+  cursor: pointer; transition: background 0.15s;
+}
+.save-btn:hover { background: #0F6E56; }
+.save-btn:disabled { background: #a0aec0; cursor: not-allowed; }
+
+.main { max-width: 860px; margin: 0 auto; display: grid; grid-template-columns: 1fr 300px; gap: 20px; align-items: start; }
+
+.panel {
+  background: #fff; border-radius: 16px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+  overflow: hidden;
+}
+.panel-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid #e8ecf0;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.panel-title { font-size: 14px; font-weight: 600; color: #1a2332; }
+.add-btn {
+  font-size: 12px; font-weight: 600;
+  color: #1D9E75; background: #E1F5EE;
+  border: none; padding: 6px 14px;
+  border-radius: 6px; cursor: pointer;
+  transition: background 0.15s;
+}
+.add-btn:hover { background: #9FE1CB; }
+
+#steps-list { padding: 12px; display: flex; flex-direction: column; gap: 8px; min-height: 100px; }
+
+.step-item {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 12px 14px;
+  cursor: default;
+  transition: border-color 0.15s;
+  position: relative;
+}
+.step-item:hover { border-color: #cbd5e0; }
+.step-item.selected { border-color: #1D9E75; background: #f0faf6; }
+.step-item-header { display: flex; align-items: center; gap: 10px; }
+.step-drag { color: #cbd5e0; font-size: 16px; cursor: grab; padding: 0 4px; user-select: none; }
+.step-drag:active { cursor: grabbing; }
+.step-module-badge {
+  font-size: 10px; font-weight: 700;
+  padding: 2px 8px; border-radius: 20px;
+  background: #E1F5EE; color: #0F6E56;
+  flex-shrink: 0;
+}
+.step-item-title { font-size: 13px; font-weight: 500; color: #1a2332; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.step-actions { display: flex; gap: 4px; }
+.step-action-btn {
+  background: none; border: none;
+  color: #a0aec0; font-size: 14px;
+  cursor: pointer; padding: 2px 5px;
+  border-radius: 4px; transition: all 0.15s;
+}
+.step-action-btn:hover { color: #e24b4a; background: #FCEBEB; }
+.step-action-btn.edit:hover { color: #185FA5; background: #E6F1FB; }
+
+/* Edit panel */
+.edit-panel-inner { padding: 20px; }
+.field-group { margin-bottom: 16px; }
+label { display: block; font-size: 12px; font-weight: 600; color: #718096; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.04em; }
+input[type="text"], select, textarea {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 13px;
+  font-family: inherit;
+  color: #1a2332;
+  background: #fff;
+  transition: border-color 0.15s;
+  outline: none;
+}
+input[type="text"]:focus, select:focus, textarea:focus { border-color: #1D9E75; }
+textarea { min-height: 100px; resize: vertical; line-height: 1.6; }
+.no-selection {
+  padding: 32px 20px;
+  text-align: center;
+  color: #a0aec0;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+/* GitHub config */
+.config-panel { background: #fff; border-radius: 16px; box-shadow: 0 2px 16px rgba(0,0,0,0.07); padding: 20px; }
+.config-title { font-size: 13px; font-weight: 600; color: #1a2332; margin-bottom: 16px; }
+.config-field { margin-bottom: 12px; }
+.config-label { font-size: 11px; font-weight: 600; color: #a0aec0; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.04em; }
+.config-input {
+  width: 100%; padding: 8px 10px;
+  border: 1px solid #e2e8f0; border-radius: 7px;
+  font-size: 12px; font-family: monospace;
+  color: #4a5568; outline: none;
+  transition: border-color 0.15s;
+}
+.config-input:focus { border-color: #1D9E75; }
+.config-hint { font-size: 11px; color: #a0aec0; margin-top: 4px; line-height: 1.5; }
+.config-save-btn {
+  width: 100%; margin-top: 8px;
+  background: #f4f6f9; border: 1px solid #e2e8f0;
+  color: #4a5568; font-size: 12px; font-weight: 600;
+  padding: 8px; border-radius: 7px;
+  cursor: pointer; transition: background 0.15s;
+}
+.config-save-btn:hover { background: #e8ecf0; }
+
+/* Status toast */
+#toast {
+  position: fixed; bottom: 24px; right: 24px;
+  background: #1a2332; color: #fff;
+  padding: 12px 20px; border-radius: 10px;
+  font-size: 13px; font-weight: 500;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  transform: translateY(80px); opacity: 0;
+  transition: all 0.3s; z-index: 9999;
+}
+#toast.show { transform: translateY(0); opacity: 1; }
+#toast.success { background: #0F6E56; }
+#toast.error { background: #A32D2D; }
+
+.step-count { font-size: 12px; color: #a0aec0; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">
+    <div class="logo-dot"></div>
+    <span class="logo-text">NOTO TMS — Admin panel</span>
+  </div>
+  <div class="header-right">
+    <a href="index.html" class="back-link">← Nazad na installer</a>
+    <button class="save-btn" onclick="saveToGitHub()">Sačuvaj na GitHub</button>
+  </div>
+</div>
+
+<div class="main">
+  <div class="panel">
+    <div class="panel-header">
+      <span class="panel-title">Koraci uputstva <span class="step-count" id="step-count"></span></span>
+      <button class="add-btn" onclick="addStep()">+ Dodaj korak</button>
+    </div>
+    <div id="steps-list"></div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:16px;">
+    <div class="panel" id="edit-panel">
+      <div class="panel-header"><span class="panel-title">Uredi korak</span></div>
+      <div class="no-selection" id="no-selection">Kliknite na korak da ga uredite</div>
+      <div class="edit-panel-inner" id="edit-fields" style="display:none;">
+        <div class="field-group">
+          <label>Modul</label>
+          <select id="edit-module">
+            <option>Pošiljke</option>
+            <option>Ture</option>
+            <option>CRM</option>
+            <option>Finansije</option>
+            <option>Podešavanja</option>
+            <option>Opšte</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label>Naslov</label>
+          <input type="text" id="edit-title" placeholder="Naziv koraka...">
+        </div>
+        <div class="field-group">
+          <label>Tekst uputstva</label>
+          <textarea id="edit-text" placeholder="Opis šta korisnik treba da uradi..."></textarea>
+        </div>
+        <button class="save-btn" style="width:100%;" onclick="applyEdit()">Primeni izmenu</button>
+      </div>
+    </div>
+
+    <div class="config-panel">
+      <div class="config-title">⚙ GitHub podešavanja</div>
+      <div class="config-field">
+        <div class="config-label">GitHub korisnik</div>
+        <input class="config-input" id="cfg-user" placeholder="vaš-username">
+      </div>
+      <div class="config-field">
+        <div class="config-label">Repo naziv</div>
+        <input class="config-input" id="cfg-repo" placeholder="noto-tour">
+      </div>
+      <div class="config-field">
+        <div class="config-label">Branch</div>
+        <input class="config-input" id="cfg-branch" placeholder="main">
+      </div>
+      <div class="config-field">
+        <div class="config-label">Personal Access Token</div>
+        <input class="config-input" id="cfg-token" type="password" placeholder="ghp_...">
+        <div class="config-hint">Token sa repo scope pravima. Čuva se samo u vašem browseru (localStorage).</div>
+      </div>
+      <button class="config-save-btn" onclick="saveConfig()">Sačuvaj podešavanja</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+let steps = [];
+let selectedIdx = null;
+
+// Učitaj config iz localStorage
+function loadConfig() {
+  const cfg = JSON.parse(localStorage.getItem('noto_cfg') || '{}');
+  document.getElementById('cfg-user').value = cfg.user || '';
+  document.getElementById('cfg-repo').value = cfg.repo || '';
+  document.getElementById('cfg-branch').value = cfg.branch || 'main';
+  document.getElementById('cfg-token').value = cfg.token || '';
+}
+
+function saveConfig() {
+  const cfg = {
+    user: document.getElementById('cfg-user').value.trim(),
+    repo: document.getElementById('cfg-repo').value.trim(),
+    branch: document.getElementById('cfg-branch').value.trim() || 'main',
+    token: document.getElementById('cfg-token').value.trim()
+  };
+  localStorage.setItem('noto_cfg', JSON.stringify(cfg));
+  showToast('Podešavanja sačuvana', 'success');
+}
+
+function getConfig() {
+  return JSON.parse(localStorage.getItem('noto_cfg') || '{}');
+}
+
+// Učitaj steps.json sa GitHub raw
+async function loadSteps() {
+  const cfg = getConfig();
+  if (!cfg.user || !cfg.repo) {
+    // Učitaj lokalne demo korake
+    const res = await fetch('steps.json').catch(() => null);
+    if (res && res.ok) steps = await res.json();
+    else steps = [];
+    renderList();
+    return;
+  }
+  const url = `https://raw.githubusercontent.com/${cfg.user}/${cfg.repo}/${cfg.branch || 'main'}/steps.json?v=${Date.now()}`;
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    steps = await res.json();
+  } catch (e) {
+    steps = [];
+    showToast('Nije moguće učitati steps.json sa GitHub-a', 'error');
+  }
+  renderList();
+}
+
+function renderList() {
+  const list = document.getElementById('steps-list');
+  const count = document.getElementById('step-count');
+  count.textContent = `(${steps.length})`;
+
+  if (!steps.length) {
+    list.innerHTML = '<div style="padding:24px;text-align:center;color:#a0aec0;font-size:13px;">Nema koraka. Dodajte prvi korak →</div>';
+    return;
+  }
+
+  list.innerHTML = '';
+  steps.forEach((s, i) => {
+    const item = document.createElement('div');
+    item.className = 'step-item' + (i === selectedIdx ? ' selected' : '');
+    item.dataset.idx = i;
+    item.innerHTML = `
+      <div class="step-item-header">
+        <span class="step-drag" title="Prevuci za promenu redosleda">⠿</span>
+        <span class="step-module-badge">${s.module || 'Opšte'}</span>
+        <span class="step-item-title">${i + 1}. ${s.title}</span>
+        <div class="step-actions">
+          <button class="step-action-btn edit" title="Uredi" onclick="selectStep(${i})">✎</button>
+          <button class="step-action-btn" title="Obriši" onclick="deleteStep(${i})">✕</button>
+        </div>
+      </div>
+    `;
+    list.appendChild(item);
+  });
+
+  initDragSort();
+}
+
+function selectStep(idx) {
+  selectedIdx = idx;
+  const s = steps[idx];
+  document.getElementById('no-selection').style.display = 'none';
+  document.getElementById('edit-fields').style.display = 'block';
+  document.getElementById('edit-module').value = s.module || 'Opšte';
+  document.getElementById('edit-title').value = s.title;
+  document.getElementById('edit-text').value = s.text;
+  renderList();
+}
+
+function applyEdit() {
+  if (selectedIdx === null) return;
+  steps[selectedIdx] = {
+    id: steps[selectedIdx].id,
+    module: document.getElementById('edit-module').value,
+    title: document.getElementById('edit-title').value.trim(),
+    text: document.getElementById('edit-text').value.trim()
+  };
+  renderList();
+  showToast('Korak izmenjen (nije još sačuvan na GitHub)', '');
+}
+
+function addStep() {
+  const newStep = {
+    id: Date.now(),
+    module: 'Pošiljke',
+    title: 'Novi korak',
+    text: 'Unesite opis...'
+  };
+  steps.push(newStep);
+  selectedIdx = steps.length - 1;
+  renderList();
+  selectStep(selectedIdx);
+}
+
+function deleteStep(idx) {
+  if (!confirm('Obrisati ovaj korak?')) return;
+  steps.splice(idx, 1);
+  if (selectedIdx === idx) {
+    selectedIdx = null;
+    document.getElementById('no-selection').style.display = 'block';
+    document.getElementById('edit-fields').style.display = 'none';
+  } else if (selectedIdx > idx) {
+    selectedIdx--;
+  }
+  renderList();
+}
+
+// Drag & drop sort
+function initDragSort() {
+  const list = document.getElementById('steps-list');
+  let dragging = null;
+
+  list.querySelectorAll('.step-item').forEach(item => {
+    item.querySelector('.step-drag').addEventListener('mousedown', () => {
+      item.draggable = true;
+    });
+    item.addEventListener('dragstart', e => {
+      dragging = item;
+      setTimeout(() => item.style.opacity = '0.4', 0);
+    });
+    item.addEventListener('dragend', () => {
+      item.style.opacity = '1';
+      item.draggable = false;
+      dragging = null;
+      rebuildOrder();
+    });
+    item.addEventListener('dragover', e => {
+      e.preventDefault();
+      if (dragging && dragging !== item) {
+        const rect = item.getBoundingClientRect();
+        const mid = rect.top + rect.height / 2;
+        if (e.clientY < mid) list.insertBefore(dragging, item);
+        else list.insertBefore(dragging, item.nextSibling);
+      }
+    });
+  });
+}
+
+function rebuildOrder() {
+  const list = document.getElementById('steps-list');
+  const newSteps = [];
+  list.querySelectorAll('.step-item').forEach(item => {
+    const idx = parseInt(item.dataset.idx);
+    newSteps.push(steps[idx]);
+  });
+  steps = newSteps;
+  selectedIdx = null;
+  document.getElementById('no-selection').style.display = 'block';
+  document.getElementById('edit-fields').style.display = 'none';
+  renderList();
+}
+
+// Sačuvaj na GitHub
+async function saveToGitHub() {
+  const cfg = getConfig();
+  if (!cfg.user || !cfg.repo || !cfg.token) {
+    showToast('Popunite GitHub podešavanja (desno)', 'error');
+    return;
+  }
+
+  const btn = document.querySelector('.save-btn');
+  btn.disabled = true;
+  btn.textContent = 'Čuvam...';
+
+  const path = 'steps.json';
+  const apiUrl = `https://api.github.com/repos/${cfg.user}/${cfg.repo}/contents/${path}`;
+  const headers = {
+    'Authorization': `Bearer ${cfg.token}`,
+    'Accept': 'application/vnd.github+json',
+    'Content-Type': 'application/json'
+  };
+
+  // Uzmi trenutni SHA (potreban za update)
+  let sha = null;
+  try {
+    const existing = await fetch(`${apiUrl}?ref=${cfg.branch || 'main'}`, { headers });
+    if (existing.ok) {
+      const data = await existing.json();
+      sha = data.sha;
+    }
+  } catch (e) {}
+
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify(steps, null, 2))));
+  const body = {
+    message: 'Ažurirani koraci uputstva',
+    content,
+    branch: cfg.branch || 'main'
+  };
+  if (sha) body.sha = sha;
+
+  try {
+    const res = await fetch(apiUrl, {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify(body)
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.message || 'GitHub API greška');
+    }
+    showToast('✓ Sačuvano na GitHub! Deploy u toku (~30s)', 'success');
+  } catch (e) {
+    showToast('Greška: ' + e.message, 'error');
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Sačuvaj na GitHub';
+}
+
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'show ' + (type || '');
+  clearTimeout(window._toastTimer);
+  window._toastTimer = setTimeout(() => t.className = '', 3500);
+}
+
+// Init
+loadConfig();
+loadSteps();
+</script>
+</body>
+</html>

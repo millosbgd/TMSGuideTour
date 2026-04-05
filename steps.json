@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "title": "Lista pošiljki",
+    "text": "Ovde se prikazuju sve pošiljke. Koristite filter polja iznad svake kolone za pretragu po broju, statusu ili klijentu. Ukupan broj pošiljki vidite u zaglavlju.",
+    "module": "Pošiljke"
+  },
+  {
+    "id": 2,
+    "title": "Nova pošiljka",
+    "text": "Kliknite dugme '+' (gore desno) da kreirate novu pošiljku. Otvoriće se forma sa svim obaveznim poljima.",
+    "module": "Pošiljke"
+  },
+  {
+    "id": 3,
+    "title": "Broj i status pošiljke",
+    "text": "Svaka pošiljka dobija automatski generisan broj (npr. TP26000012). Status se prikazuje u koloni 'Status pošiljke' i može biti: Kreirana, Isporučena, Fakturisana ili Stornirano.",
+    "module": "Pošiljke"
+  },
+  {
+    "id": 4,
+    "title": "Otvaranje pošiljke",
+    "text": "Kliknite na plavi broj pošiljke u prvoj koloni da otvorite detaljan prikaz. Tu možete unositi podatke o robi, cenama, dokumentaciji i pratiti status.",
+    "module": "Pošiljke"
+  },
+  {
+    "id": 5,
+    "title": "Obavezna polja",
+    "text": "U formi pošiljke, polja označena zvezdicom (*) su obavezna: Klijent, Vrsta pošiljke, Vrsta vozila i Vrsta transporta. Bez njih nije moguće sačuvati pošiljku.",
+    "module": "Pošiljke"
+  },
+  {
+    "id": 6,
+    "title": "Podaci o robi",
+    "text": "U sekciji 'Podaci o robi' unesite vrstu robe i vrednost. U 'Logistički podaci' unesite broj koleta, tip pakovanja i dužne metre. Ako je roba temperaturno osetljiva, čekirajte 'Temperaturni režim'.",
+    "module": "Pošiljke"
+  },
+  {
+    "id": 7,
+    "title": "Tabovi pošiljke",
+    "text": "Unutar pošiljke postoje tabovi: Cena, Transport, Carinjenje, Napomene, Deonice, Statusi, Prihodi, Rashodi, Rezultati, Dimenzije i Očekivana dokumentacija.",
+    "module": "Pošiljke"
+  },
+  {
+    "id": 8,
+    "title": "Kreiranje ture iz pošiljke",
+    "text": "Kad je pošiljka popunjena, možete kreirati turu direktno klikom na 'Napravi turu' ili je dodati na postojeću turu klikom 'Dodaj na turu' — oba dugmeta su na vrhu forme.",
+    "module": "Pošiljke"
+  },
+  {
+    "id": 9,
+    "title": "Ture — vozilo i vozač",
+    "text": "U modulu Tura obavezno popunite: Vozilo (registarski broj), Vozač, Vrstu ture i Organizacionu jedinicu. Sistem automatski generiše broj ture (npr. TT26000016).",
+    "module": "Ture"
+  },
+  {
+    "id": 10,
+    "title": "Validacije i čuvanje",
+    "text": "Pre završetka uvek kliknite 'Validacije' — sistem proverava da li su sva obavezna polja ispravno popunjena. Tek nakon uspešnih validacija kliknite 'Sačuvaj'.",
+    "module": "Ture"
+  }
+]
