@@ -8,9 +8,11 @@
   },
   {
     "id": 2,
+    "module": "Pošiljke",
     "title": "Nova pošiljka",
     "text": "Kliknite dugme '+' (gore desno) da kreirate novu pošiljku. Otvoriće se forma sa svim obaveznim poljima.",
-    "module": "Pošiljke"
+    "layout": "image-bottom",
+    "image": "https://tmsguidetourstorage.blob.core.windows.net/screenshots/step-1775385643712-1.png"
   },
   {
     "id": 3,
