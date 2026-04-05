@@ -298,7 +298,6 @@ function render() {
   document.getElementById('btn-next').textContent = current === total - 1 ? 'Završi ✓' : 'Sledeće →';
 
   document.getElementById('content').innerHTML = `
-    <div><span class="module-badge">${s.module || 'Opšte'}</span></div>
     <h1 class="step-title">${s.title}</h1>
     <div class="image-area">
       ${s.image
