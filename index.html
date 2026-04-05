@@ -298,7 +298,6 @@ function render() {
   document.getElementById('btn-next').textContent = current === total - 1 ? 'Završi ✓' : 'Sledeće →';
 
   document.getElementById('content').innerHTML = `
-    <h1 class="step-title">${s.title}</h1>
     <div class="image-area">
       ${s.image
         ? `<img src="${s.image}" alt="${s.title}" onerror="this.parentElement.innerHTML='<div class=\'image-placeholder\'>Slika nije dostupna</div>'">`
