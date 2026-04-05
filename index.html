@@ -98,62 +98,78 @@ body {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  transition: all 0.25s ease;
 }
 
 .content {
   flex: 1;
   overflow-y: auto;
-  padding: 28px 32px;
+  padding: 24px 28px;
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  max-width: 860px;
-  width: 100%;
-  margin: 0 auto;
+  gap: 16px;
 }
 
-.module-badge {
-  display: inline-flex;
-  font-size: 11px; font-weight: 700;
-  padding: 4px 12px; border-radius: 20px;
-  background: #DBEAFE; color: #1D4ED8;
+/* --- Layout templates --- */
+
+/* image-top / image-bottom: single column */
+.tpl-single {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: 100%;
 }
 
-.step-title {
-  font-size: 24px; font-weight: 700;
-  color: #1a2332; line-height: 1.3;
+/* two-col: 50/50 grid */
+.tpl-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 12px;
+  height: 100%;
+  min-height: 0;
 }
 
-.image-area {
+.img-box {
   background: #f8fafc;
   border: 1px solid #e2e8f0;
-  border-radius: 12px;
+  border-radius: 10px;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 180px;
+  min-height: 0;
 }
-.image-area img {
-  width: 100%;
-  height: auto;
+.img-box img {
+  width: 100%; height: 100%;
+  object-fit: contain;
   display: block;
-  border-radius: 12px;
 }
-.image-placeholder {
-  color: #cbd5e0;
-  font-size: 13px;
-  padding: 48px;
-  text-align: center;
+.img-placeholder {
+  color: #cbd5e0; font-size: 12px;
+  text-align: center; padding: 24px;
+  line-height: 1.7;
+}
+
+.text-box {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 18px 20px;
+  font-size: 14px;
+  color: #4a5568;
   line-height: 1.8;
+  overflow-y: auto;
 }
 
-.step-text {
-  font-size: 15px; color: #4a5568;
-  line-height: 1.85;
-}
+/* image-top: img big, text smaller */
+.tpl-single.image-top .img-box { flex: 1; min-height: 0; }
+.tpl-single.image-top .text-box { flex-shrink: 0; max-height: 35%; }
 
+/* image-bottom: text smaller, img big */
+.tpl-single.image-bottom .text-box { flex-shrink: 0; max-height: 35%; }
+.tpl-single.image-bottom .img-box { flex: 1; min-height: 0; }
+
+/* nav bar */
 .nav-bar {
   background: #fff;
   border-top: 1px solid #e8ecf0;
@@ -204,7 +220,7 @@ body {
 
 <div class="header">
   <div class="header-left">
-    <button class="sidebar-toggle" id="sidebar-toggle" onclick="toggleSidebar()" title="Prikaži/sakrij meni">
+    <button class="sidebar-toggle" onclick="toggleSidebar()" title="Prikaži/sakrij meni">
       <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
         <line x1="2" y1="4" x2="16" y2="4"/>
         <line x1="2" y1="9" x2="16" y2="9"/>
@@ -254,6 +270,58 @@ function toggleSidebar() {
   document.getElementById('sidebar').classList.toggle('collapsed', !sidebarOpen);
 }
 
+function imgBox(url, alt) {
+  return `<div class="img-box">
+    ${url
+      ? `<img src="${url}" alt="${alt || ''}" onerror="this.parentElement.innerHTML='<div class=\'img-placeholder\'>Slika nije dostupna</div>'">`
+      : `<div class="img-placeholder">Screenshot još nije dodat</div>`}
+  </div>`;
+}
+
+function textBox(text) {
+  return `<div class="text-box">${text || ''}</div>`;
+}
+
+function renderStep(s) {
+  const layout = s.layout || 'image-top';
+
+  if (layout === 'image-top') {
+    return `<div class="tpl-single image-top">
+      ${imgBox(s.image, s.title)}
+      ${textBox(s.text)}
+    </div>`;
+  }
+
+  if (layout === 'image-bottom') {
+    return `<div class="tpl-single image-bottom">
+      ${textBox(s.text)}
+      ${imgBox(s.image, s.title)}
+    </div>`;
+  }
+
+  if (layout === 'two-col-left') {
+    // levo: slika1 (gore) + slika2 (dole), desno: tekst1 (gore) + tekst2 (dole)
+    return `<div class="tpl-two-col">
+      ${imgBox(s.image, s.title)}
+      ${textBox(s.text)}
+      ${imgBox(s.image2, s.title)}
+      ${textBox(s.text2)}
+    </div>`;
+  }
+
+  if (layout === 'two-col-cross') {
+    // levo: slika1 (gore) + tekst2 (dole), desno: tekst1 (gore) + slika2 (dole)
+    return `<div class="tpl-two-col">
+      ${imgBox(s.image, s.title)}
+      ${textBox(s.text)}
+      ${textBox(s.text2)}
+      ${imgBox(s.image2, s.title)}
+    </div>`;
+  }
+
+  return `<div class="tpl-single image-top">${imgBox(s.image, s.title)}${textBox(s.text)}</div>`;
+}
+
 async function init() {
   try {
     const res = await fetch(STEPS_URL + '?v=' + Date.now());
@@ -296,16 +364,7 @@ function render() {
   document.getElementById('progress-label').textContent = `Korak ${current + 1} od ${total}`;
   document.getElementById('btn-prev').disabled = current === 0;
   document.getElementById('btn-next').textContent = current === total - 1 ? 'Završi ✓' : 'Sledeće →';
-
-  document.getElementById('content').innerHTML = `
-    <div class="image-area">
-      ${s.image
-        ? `<img src="${s.image}" alt="${s.title}" onerror="this.parentElement.innerHTML='<div class=\'image-placeholder\'>Slika nije dostupna</div>'">`
-        : `<div class="image-placeholder">Screenshot još nije dodat za ovaj korak</div>`
-      }
-    </div>
-    <p class="step-text">${s.text}</p>
-  `;
+  document.getElementById('content').innerHTML = renderStep(s);
 
   renderSidebar();
   document.querySelector('.sidebar-step.active')?.scrollIntoView({ block: 'nearest' });

@@ -20,7 +20,7 @@ body {
   justify-content: space-between;
 }
 .logo { display: flex; align-items: center; gap: 10px; }
-.logo-dot { width: 10px; height: 10px; border-radius: 50%; background: #1D9E75; }
+.logo-dot { width: 10px; height: 10px; border-radius: 50%; background: #2563EB; }
 .logo-text { font-size: 14px; font-weight: 700; color: #1a2332; letter-spacing: 0.04em; }
 .header-right { display: flex; align-items: center; gap: 12px; }
 .back-link {
@@ -31,11 +31,11 @@ body {
 .back-link:hover { color: #1a2332; border-color: #cbd5e0; }
 .save-btn {
   font-size: 13px; font-weight: 600; color: #fff;
-  background: #1D9E75; border: none;
+  background: #2563EB; border: none;
   padding: 8px 20px; border-radius: 8px;
   cursor: pointer; transition: background 0.15s;
 }
-.save-btn:hover { background: #0F6E56; }
+.save-btn:hover { background: #1D4ED8; }
 .save-btn:disabled { background: #a0aec0; cursor: not-allowed; }
 
 .main { max-width: 960px; margin: 0 auto; display: grid; grid-template-columns: 1fr 310px; gap: 20px; align-items: start; }
@@ -54,12 +54,12 @@ body {
 .step-count { font-size: 12px; color: #a0aec0; }
 .add-btn {
   font-size: 12px; font-weight: 600;
-  color: #1D9E75; background: #E1F5EE;
+  color: #2563EB; background: #DBEAFE;
   border: none; padding: 6px 14px;
   border-radius: 6px; cursor: pointer;
   transition: background 0.15s;
 }
-.add-btn:hover { background: #9FE1CB; }
+.add-btn:hover { background: #BFDBFE; }
 
 #steps-list { padding: 12px; display: flex; flex-direction: column; gap: 8px; min-height: 100px; }
 
@@ -72,20 +72,23 @@ body {
   transition: border-color 0.15s;
 }
 .step-item:hover { border-color: #cbd5e0; }
-.step-item.selected { border-color: #1D9E75; background: #f0faf6; }
+.step-item.selected { border-color: #2563EB; background: #EFF6FF; }
 .step-item-header { display: flex; align-items: center; gap: 10px; }
 .step-drag { color: #cbd5e0; font-size: 16px; cursor: grab; padding: 0 4px; user-select: none; }
 .step-drag:active { cursor: grabbing; }
 .step-module-badge {
   font-size: 10px; font-weight: 700;
   padding: 2px 8px; border-radius: 20px;
-  background: #E1F5EE; color: #0F6E56;
+  background: #DBEAFE; color: #1D4ED8;
   flex-shrink: 0;
 }
-.step-has-image {
-  font-size: 10px; color: #1D9E75;
+.step-layout-badge {
+  font-size: 10px; font-weight: 600;
+  padding: 2px 7px; border-radius: 20px;
+  background: #f0f4f8; color: #718096;
   flex-shrink: 0;
 }
+.step-has-image { font-size: 10px; color: #2563EB; flex-shrink: 0; }
 .step-item-title { font-size: 13px; font-weight: 500; color: #1a2332; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .step-actions { display: flex; gap: 4px; }
 .step-action-btn {
@@ -102,69 +105,80 @@ body {
 .field-group { margin-bottom: 16px; }
 label { display: block; font-size: 12px; font-weight: 600; color: #718096; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.04em; }
 input[type="text"], select, textarea {
-  width: 100%;
-  padding: 9px 12px;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  font-size: 13px;
-  font-family: inherit;
-  color: #1a2332;
-  background: #fff;
-  transition: border-color 0.15s;
-  outline: none;
+  width: 100%; padding: 9px 12px;
+  border: 1px solid #e2e8f0; border-radius: 8px;
+  font-size: 13px; font-family: inherit;
+  color: #1a2332; background: #fff;
+  transition: border-color 0.15s; outline: none;
 }
-input[type="text"]:focus, select:focus, textarea:focus { border-color: #1D9E75; }
-textarea { min-height: 90px; resize: vertical; line-height: 1.6; }
+input[type="text"]:focus, select:focus, textarea:focus { border-color: #2563EB; }
+textarea { min-height: 80px; resize: vertical; line-height: 1.6; }
 .no-selection {
-  padding: 32px 20px;
-  text-align: center;
-  color: #a0aec0;
-  font-size: 13px;
-  line-height: 1.7;
+  padding: 32px 20px; text-align: center;
+  color: #a0aec0; font-size: 13px; line-height: 1.7;
 }
+
+/* Layout preview thumbnails */
+.layout-options {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.layout-option {
+  border: 2px solid #e2e8f0;
+  border-radius: 8px; padding: 8px;
+  cursor: pointer; transition: all 0.15s;
+  text-align: center;
+}
+.layout-option:hover { border-color: #93C5FD; }
+.layout-option.active { border-color: #2563EB; background: #EFF6FF; }
+.layout-thumb {
+  display: flex; flex-direction: column;
+  gap: 3px; margin-bottom: 5px; height: 44px;
+}
+.layout-thumb.row { flex-direction: row; }
+.lt-img { background: #BFDBFE; border-radius: 3px; flex: 1; }
+.lt-txt { background: #e8ecf0; border-radius: 3px; }
+.lt-txt.sm { flex: 0 0 10px; }
+.lt-txt.grow { flex: 1; }
+.layout-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; height: 44px; }
+.layout-name { font-size: 10px; color: #4a5568; font-weight: 600; }
 
 /* Image upload */
 .image-upload-area {
-  border: 2px dashed #e2e8f0;
-  border-radius: 10px;
-  padding: 16px;
-  text-align: center;
-  transition: border-color 0.15s;
-  cursor: pointer;
-  position: relative;
+  border: 2px dashed #e2e8f0; border-radius: 10px;
+  padding: 14px; text-align: center;
+  transition: border-color 0.15s; cursor: pointer; position: relative;
 }
-.image-upload-area:hover { border-color: #1D9E75; }
-.image-upload-area.has-image { border-style: solid; border-color: #1D9E75; padding: 0; overflow: hidden; }
-.image-upload-area img {
-  width: 100%; height: auto;
-  display: block; border-radius: 8px;
-}
+.image-upload-area:hover { border-color: #2563EB; }
+.image-upload-area.has-image { border-style: solid; border-color: #2563EB; padding: 0; overflow: hidden; }
+.image-upload-area img { width: 100%; height: auto; display: block; border-radius: 8px; max-height: 120px; object-fit: cover; }
 .image-upload-hint { font-size: 12px; color: #a0aec0; line-height: 1.7; }
-.image-upload-hint strong { display: block; font-size: 13px; color: #4a5568; margin-bottom: 4px; }
+.image-upload-hint strong { display: block; font-size: 12px; color: #4a5568; margin-bottom: 2px; }
 input[type="file"] { display: none; }
-.image-actions { display: flex; gap: 6px; margin-top: 8px; }
+.image-actions { display: flex; gap: 6px; margin-top: 6px; }
 .img-btn {
   flex: 1; font-size: 11px; font-weight: 600;
-  padding: 6px; border-radius: 6px;
+  padding: 5px; border-radius: 6px;
   cursor: pointer; border: 1px solid #e2e8f0;
-  background: #fff; color: #4a5568;
-  transition: background 0.15s;
+  background: #fff; color: #4a5568; transition: background 0.15s;
 }
 .img-btn:hover { background: #f4f6f9; }
 .img-btn.remove { color: #e24b4a; border-color: #FCEBEB; }
 .img-btn.remove:hover { background: #FCEBEB; }
-.upload-progress {
-  font-size: 11px; color: #1D9E75;
-  text-align: center; padding: 8px 0 0;
-  display: none;
+.upload-progress { font-size: 11px; color: #2563EB; text-align: center; padding: 6px 0 0; display: none; }
+
+.section-divider {
+  font-size: 10px; font-weight: 700; color: #a0aec0;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  border-top: 1px solid #e8ecf0;
+  padding-top: 14px; margin-top: 4px; margin-bottom: 12px;
 }
 
 /* Config panels */
 .config-panel {
   background: #fff; border-radius: 16px;
   box-shadow: 0 2px 16px rgba(0,0,0,0.07);
-  padding: 20px;
-  margin-bottom: 16px;
+  padding: 20px; margin-bottom: 16px;
 }
 .config-title { font-size: 13px; font-weight: 600; color: #1a2332; margin-bottom: 16px; }
 .config-field { margin-bottom: 12px; }
@@ -173,10 +187,9 @@ input[type="file"] { display: none; }
   width: 100%; padding: 8px 10px;
   border: 1px solid #e2e8f0; border-radius: 7px;
   font-size: 12px; font-family: monospace;
-  color: #4a5568; outline: none;
-  transition: border-color 0.15s;
+  color: #4a5568; outline: none; transition: border-color 0.15s;
 }
-.config-input:focus { border-color: #1D9E75; }
+.config-input:focus { border-color: #2563EB; }
 .config-hint { font-size: 11px; color: #a0aec0; margin-top: 4px; line-height: 1.5; }
 .config-save-btn {
   width: 100%; margin-top: 8px;
@@ -187,7 +200,6 @@ input[type="file"] { display: none; }
 }
 .config-save-btn:hover { background: #e8ecf0; }
 
-/* Toast */
 #toast {
   position: fixed; bottom: 24px; right: 24px;
   background: #1a2332; color: #fff;
@@ -198,7 +210,7 @@ input[type="file"] { display: none; }
   transition: all 0.3s; z-index: 9999;
 }
 #toast.show { transform: translateY(0); opacity: 1; }
-#toast.success { background: #0F6E56; }
+#toast.success { background: #1D4ED8; }
 #toast.error { background: #A32D2D; }
 </style>
 </head>
@@ -207,7 +219,7 @@ input[type="file"] { display: none; }
 <div class="header">
   <div class="logo">
     <div class="logo-dot"></div>
-    <span class="logo-text">NOTO TMS — Admin panel</span>
+    <span class="logo-text">TMS — Admin panel</span>
   </div>
   <div class="header-right">
     <a href="index.html" class="back-link">← Nazad na uputstvo</a>
@@ -224,11 +236,12 @@ input[type="file"] { display: none; }
     <div id="steps-list"></div>
   </div>
 
-  <div style="display:flex;flex-direction:column;gap:0;">
+  <div>
     <div class="panel" id="edit-panel" style="margin-bottom:16px;">
       <div class="panel-header"><span class="panel-title">Uredi korak</span></div>
       <div class="no-selection" id="no-selection">Kliknite na korak da ga uredite</div>
       <div class="edit-panel-inner" id="edit-fields" style="display:none;">
+
         <div class="field-group">
           <label>Modul</label>
           <select id="edit-module">
@@ -240,29 +253,99 @@ input[type="file"] { display: none; }
             <option>Opšte</option>
           </select>
         </div>
+
         <div class="field-group">
-          <label>Naslov</label>
+          <label>Naziv koraka</label>
           <input type="text" id="edit-title" placeholder="Naziv koraka...">
         </div>
+
         <div class="field-group">
-          <label>Tekst uputstva</label>
-          <textarea id="edit-text" placeholder="Opis šta korisnik treba da uradi..."></textarea>
+          <label>Templejt rasporeda</label>
+          <div class="layout-options" id="layout-options">
+
+            <div class="layout-option active" data-layout="image-top" onclick="selectLayout('image-top')">
+              <div class="layout-thumb">
+                <div class="lt-img" style="flex:2"></div>
+                <div class="lt-txt sm"></div>
+              </div>
+              <div class="layout-name">Slika gore</div>
+            </div>
+
+            <div class="layout-option" data-layout="image-bottom" onclick="selectLayout('image-bottom')">
+              <div class="layout-thumb">
+                <div class="lt-txt sm"></div>
+                <div class="lt-img" style="flex:2"></div>
+              </div>
+              <div class="layout-name">Slika dole</div>
+            </div>
+
+            <div class="layout-option" data-layout="two-col-left" onclick="selectLayout('two-col-left')">
+              <div class="layout-grid">
+                <div class="lt-img"></div>
+                <div class="lt-txt grow"></div>
+                <div class="lt-img"></div>
+                <div class="lt-txt grow"></div>
+              </div>
+              <div class="layout-name" style="margin-top:5px;">Slike levo</div>
+            </div>
+
+            <div class="layout-option" data-layout="two-col-cross" onclick="selectLayout('two-col-cross')">
+              <div class="layout-grid">
+                <div class="lt-img"></div>
+                <div class="lt-txt grow"></div>
+                <div class="lt-txt grow"></div>
+                <div class="lt-img"></div>
+              </div>
+              <div class="layout-name" style="margin-top:5px;">Unakrsno</div>
+            </div>
+
+          </div>
         </div>
+
+        <!-- Slika 1 + Tekst 1 -->
+        <div class="section-divider" id="label-panel1">Panel 1</div>
+
         <div class="field-group">
-          <label>Screenshot</label>
-          <div class="image-upload-area" id="upload-area" onclick="document.getElementById('file-input').click()">
-            <div class="image-upload-hint">
-              <strong>Kliknite da dodate sliku</strong>
-              PNG, JPG — screenshot iz Noto TMS
+          <label>Slika 1</label>
+          <div class="image-upload-area" id="upload-area-1" onclick="document.getElementById('file-input-1').click()">
+            <div class="image-upload-hint"><strong>Kliknite da dodate sliku</strong>PNG, JPG screenshot</div>
+          </div>
+          <input type="file" id="file-input-1" accept="image/*" onchange="handleImageSelect(this, 1)">
+          <div class="upload-progress" id="upload-progress-1">Uploading...</div>
+          <div class="image-actions" id="image-actions-1" style="display:none;">
+            <button class="img-btn" onclick="document.getElementById('file-input-1').click()">Zameni</button>
+            <button class="img-btn remove" onclick="removeImage(1)">Ukloni</button>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label>Tekst 1</label>
+          <textarea id="edit-text" placeholder="Opis..."></textarea>
+        </div>
+
+        <!-- Slika 2 + Tekst 2 (samo za two-col) -->
+        <div id="panel2-wrap" style="display:none;">
+          <div class="section-divider">Panel 2</div>
+
+          <div class="field-group" id="img2-field">
+            <label>Slika 2</label>
+            <div class="image-upload-area" id="upload-area-2" onclick="document.getElementById('file-input-2').click()">
+              <div class="image-upload-hint"><strong>Kliknite da dodate sliku</strong>PNG, JPG screenshot</div>
+            </div>
+            <input type="file" id="file-input-2" accept="image/*" onchange="handleImageSelect(this, 2)">
+            <div class="upload-progress" id="upload-progress-2">Uploading...</div>
+            <div class="image-actions" id="image-actions-2" style="display:none;">
+              <button class="img-btn" onclick="document.getElementById('file-input-2').click()">Zameni</button>
+              <button class="img-btn remove" onclick="removeImage(2)">Ukloni</button>
             </div>
           </div>
-          <input type="file" id="file-input" accept="image/*" onchange="handleImageSelect(this)">
-          <div class="upload-progress" id="upload-progress">Uploading...</div>
-          <div class="image-actions" id="image-actions" style="display:none;">
-            <button class="img-btn" onclick="document.getElementById('file-input').click()">Zameni sliku</button>
-            <button class="img-btn remove" onclick="removeImage()">Ukloni</button>
+
+          <div class="field-group">
+            <label>Tekst 2</label>
+            <textarea id="edit-text2" placeholder="Drugi opis..."></textarea>
           </div>
         </div>
+
         <button class="save-btn" style="width:100%;" onclick="applyEdit()">Primeni izmenu</button>
       </div>
     </div>
@@ -280,7 +363,7 @@ input[type="file"] { display: none; }
       <div class="config-field">
         <div class="config-label">SAS Token</div>
         <input class="config-input" id="cfg-az-sas" type="password" placeholder="sv=2022-...">
-        <div class="config-hint">Generišite u Azure portalu → Storage account → Shared access signature. Scope: Container, Dozvole: Write + Create.</div>
+        <div class="config-hint">Generišite u Azure portalu → Shared access signature. Scope: Object, Dozvole: Write + Create.</div>
       </div>
       <button class="config-save-btn" onclick="saveAzureConfig()">Sačuvaj Azure podešavanja</button>
     </div>
@@ -302,7 +385,7 @@ input[type="file"] { display: none; }
       <div class="config-field">
         <div class="config-label">Personal Access Token</div>
         <input class="config-input" id="cfg-token" type="password" placeholder="ghp_...">
-        <div class="config-hint">Token sa repo scope pravima. Čuva se samo u browseru (localStorage).</div>
+        <div class="config-hint">Token sa repo scope pravima. Čuva se samo u browseru.</div>
       </div>
       <button class="config-save-btn" onclick="saveConfig()">Sačuvaj GitHub podešavanja</button>
     </div>
@@ -314,7 +397,9 @@ input[type="file"] { display: none; }
 <script>
 let steps = [];
 let selectedIdx = null;
-let currentImageUrl = null;
+let currentImageUrl1 = null;
+let currentImageUrl2 = null;
+let currentLayout = 'image-top';
 
 // --- Config ---
 function loadConfig() {
@@ -329,33 +414,38 @@ function loadConfig() {
   document.getElementById('cfg-az-container').value = az.container || 'screenshots';
   document.getElementById('cfg-az-sas').value = az.sas || '';
 }
-
 function saveConfig() {
-  const cfg = {
+  localStorage.setItem('noto_cfg', JSON.stringify({
     user: document.getElementById('cfg-user').value.trim(),
     repo: document.getElementById('cfg-repo').value.trim(),
     branch: document.getElementById('cfg-branch').value.trim() || 'main',
     token: document.getElementById('cfg-token').value.trim()
-  };
-  localStorage.setItem('noto_cfg', JSON.stringify(cfg));
+  }));
   showToast('GitHub podešavanja sačuvana', 'success');
 }
-
 function saveAzureConfig() {
-  const az = {
+  localStorage.setItem('noto_az', JSON.stringify({
     account: document.getElementById('cfg-az-account').value.trim(),
     container: document.getElementById('cfg-az-container').value.trim(),
     sas: document.getElementById('cfg-az-sas').value.trim()
-  };
-  localStorage.setItem('noto_az', JSON.stringify(az));
+  }));
   showToast('Azure podešavanja sačuvana', 'success');
 }
-
 function getConfig() { return JSON.parse(localStorage.getItem('noto_cfg') || '{}'); }
 function getAzureConfig() { return JSON.parse(localStorage.getItem('noto_az') || '{}'); }
 
+// --- Layout selector ---
+function selectLayout(layout) {
+  currentLayout = layout;
+  document.querySelectorAll('.layout-option').forEach(el => {
+    el.classList.toggle('active', el.dataset.layout === layout);
+  });
+  const isTwoCol = layout === 'two-col-left' || layout === 'two-col-cross';
+  document.getElementById('panel2-wrap').style.display = isTwoCol ? 'block' : 'none';
+}
+
 // --- Image upload ---
-async function handleImageSelect(input) {
+async function handleImageSelect(input, slot) {
   const file = input.files[0];
   if (!file) return;
 
@@ -365,57 +455,53 @@ async function handleImageSelect(input) {
     return;
   }
 
-  const progress = document.getElementById('upload-progress');
+  const progress = document.getElementById(`upload-progress-${slot}`);
   progress.textContent = 'Uploading...';
   progress.style.display = 'block';
 
   try {
     const ext = file.name.split('.').pop().toLowerCase();
-    const filename = `step-${Date.now()}.${ext}`;
+    const filename = `step-${Date.now()}-${slot}.${ext}`;
     const sas = az.sas.startsWith('?') ? az.sas.slice(1) : az.sas;
     const uploadUrl = `https://${az.account}.blob.core.windows.net/${az.container}/${filename}?${sas}`;
 
     const res = await fetch(uploadUrl, {
       method: 'PUT',
-      headers: {
-        'x-ms-blob-type': 'BlockBlob',
-        'Content-Type': file.type
-      },
+      headers: { 'x-ms-blob-type': 'BlockBlob', 'Content-Type': file.type },
       body: file
     });
-
     if (!res.ok) throw new Error('HTTP ' + res.status);
 
-    currentImageUrl = `https://${az.account}.blob.core.windows.net/${az.container}/${filename}`;
-    showImagePreview(currentImageUrl);
+    const url = `https://${az.account}.blob.core.windows.net/${az.container}/${filename}`;
+    if (slot === 1) { currentImageUrl1 = url; } else { currentImageUrl2 = url; }
+    showImagePreview(slot, url);
     progress.style.display = 'none';
     showToast('Slika uploadovana', 'success');
   } catch(e) {
     progress.style.display = 'none';
     showToast('Greška pri uploadu: ' + e.message, 'error');
   }
-
   input.value = '';
 }
 
-function showImagePreview(url) {
-  const area = document.getElementById('upload-area');
+function showImagePreview(slot, url) {
+  const area = document.getElementById(`upload-area-${slot}`);
   area.classList.add('has-image');
   area.innerHTML = `<img src="${url}" alt="Preview">`;
   area.onclick = null;
-  document.getElementById('image-actions').style.display = 'flex';
+  document.getElementById(`image-actions-${slot}`).style.display = 'flex';
 }
 
-function removeImage() {
-  currentImageUrl = null;
-  const area = document.getElementById('upload-area');
+function removeImage(slot) {
+  if (slot === 1) currentImageUrl1 = null; else currentImageUrl2 = null;
+  const area = document.getElementById(`upload-area-${slot}`);
   area.classList.remove('has-image');
-  area.innerHTML = `<div class="image-upload-hint"><strong>Kliknite da dodate sliku</strong>PNG, JPG — screenshot iz Noto TMS</div>`;
-  area.onclick = () => document.getElementById('file-input').click();
-  document.getElementById('image-actions').style.display = 'none';
+  area.innerHTML = `<div class="image-upload-hint"><strong>Kliknite da dodate sliku</strong>PNG, JPG screenshot</div>`;
+  area.onclick = () => document.getElementById(`file-input-${slot}`).click();
+  document.getElementById(`image-actions-${slot}`).style.display = 'none';
 }
 
-// --- Steps ---
+// --- Steps CRUD ---
 async function loadSteps() {
   const cfg = getConfig();
   const url = cfg.user && cfg.repo
@@ -431,6 +517,13 @@ async function loadSteps() {
   }
   renderList();
 }
+
+const LAYOUT_LABELS = {
+  'image-top': 'Slika gore',
+  'image-bottom': 'Slika dole',
+  'two-col-left': 'Slike levo',
+  'two-col-cross': 'Unakrsno'
+};
 
 function renderList() {
   const list = document.getElementById('steps-list');
@@ -448,8 +541,9 @@ function renderList() {
     item.dataset.idx = i;
     item.innerHTML = `
       <div class="step-item-header">
-        <span class="step-drag" title="Prevuci za promenu redosleda">⠿</span>
+        <span class="step-drag">⠿</span>
         <span class="step-module-badge">${s.module || 'Opšte'}</span>
+        <span class="step-layout-badge">${LAYOUT_LABELS[s.layout] || 'Slika gore'}</span>
         ${s.image ? '<span class="step-has-image">📷</span>' : ''}
         <span class="step-item-title">${i + 1}. ${s.title}</span>
         <div class="step-actions">
@@ -470,32 +564,40 @@ function selectStep(idx) {
   document.getElementById('edit-fields').style.display = 'block';
   document.getElementById('edit-module').value = s.module || 'Opšte';
   document.getElementById('edit-title').value = s.title;
-  document.getElementById('edit-text').value = s.text;
+  document.getElementById('edit-text').value = s.text || '';
+  document.getElementById('edit-text2').value = s.text2 || '';
 
-  currentImageUrl = s.image || null;
-  if (s.image) {
-    showImagePreview(s.image);
-  } else {
-    removeImage();
-  }
+  selectLayout(s.layout || 'image-top');
+
+  currentImageUrl1 = s.image || null;
+  currentImageUrl2 = s.image2 || null;
+  if (s.image) showImagePreview(1, s.image); else removeImage(1);
+  if (s.image2) showImagePreview(2, s.image2); else removeImage(2);
+
   renderList();
 }
 
 function applyEdit() {
   if (selectedIdx === null) return;
-  steps[selectedIdx] = {
+  const step = {
     id: steps[selectedIdx].id,
     module: document.getElementById('edit-module').value,
     title: document.getElementById('edit-title').value.trim(),
     text: document.getElementById('edit-text').value.trim(),
-    ...(currentImageUrl ? { image: currentImageUrl } : {})
+    layout: currentLayout
   };
+  if (currentImageUrl1) step.image = currentImageUrl1;
+  if (currentLayout === 'two-col-left' || currentLayout === 'two-col-cross') {
+    step.text2 = document.getElementById('edit-text2').value.trim();
+    if (currentImageUrl2) step.image2 = currentImageUrl2;
+  }
+  steps[selectedIdx] = step;
   renderList();
   showToast('Korak izmenjen (nije još sačuvan na GitHub)', '');
 }
 
 function addStep() {
-  steps.push({ id: Date.now(), module: 'Pošiljke', title: 'Novi korak', text: 'Unesite opis...' });
+  steps.push({ id: Date.now(), module: 'Pošiljke', title: 'Novi korak', text: '', layout: 'image-top' });
   selectedIdx = steps.length - 1;
   renderList();
   selectStep(selectedIdx);
@@ -508,9 +610,7 @@ function deleteStep(idx) {
     selectedIdx = null;
     document.getElementById('no-selection').style.display = 'block';
     document.getElementById('edit-fields').style.display = 'none';
-  } else if (selectedIdx > idx) {
-    selectedIdx--;
-  }
+  } else if (selectedIdx > idx) { selectedIdx--; }
   renderList();
 }
 
@@ -518,7 +618,6 @@ function deleteStep(idx) {
 function initDragSort() {
   const list = document.getElementById('steps-list');
   let dragging = null;
-
   list.querySelectorAll('.step-item').forEach(item => {
     item.querySelector('.step-drag').addEventListener('mousedown', () => { item.draggable = true; });
     item.addEventListener('dragstart', () => { dragging = item; setTimeout(() => item.style.opacity = '0.4', 0); });
@@ -527,8 +626,7 @@ function initDragSort() {
       e.preventDefault();
       if (dragging && dragging !== item) {
         const mid = item.getBoundingClientRect().top + item.getBoundingClientRect().height / 2;
-        if (e.clientY < mid) list.insertBefore(dragging, item);
-        else list.insertBefore(dragging, item.nextSibling);
+        if (e.clientY < mid) list.insertBefore(dragging, item); else list.insertBefore(dragging, item.nextSibling);
       }
     });
   });
@@ -539,8 +637,7 @@ function rebuildOrder() {
   document.getElementById('steps-list').querySelectorAll('.step-item').forEach(item => {
     newSteps.push(steps[parseInt(item.dataset.idx)]);
   });
-  steps = newSteps;
-  selectedIdx = null;
+  steps = newSteps; selectedIdx = null;
   document.getElementById('no-selection').style.display = 'block';
   document.getElementById('edit-fields').style.display = 'none';
   renderList();
@@ -549,10 +646,7 @@ function rebuildOrder() {
 // --- Save to GitHub ---
 async function saveToGitHub() {
   const cfg = getConfig();
-  if (!cfg.user || !cfg.repo || !cfg.token) {
-    showToast('Popunite GitHub podešavanja', 'error');
-    return;
-  }
+  if (!cfg.user || !cfg.repo || !cfg.token) { showToast('Popunite GitHub podešavanja', 'error'); return; }
 
   const btn = document.querySelector('.header-right .save-btn');
   btn.disabled = true; btn.textContent = 'Čuvam...';
@@ -561,33 +655,23 @@ async function saveToGitHub() {
   const headers = { 'Authorization': `Bearer ${cfg.token}`, 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' };
 
   let sha = null;
-  try {
-    const ex = await fetch(`${apiUrl}?ref=${cfg.branch || 'main'}`, { headers });
-    if (ex.ok) sha = (await ex.json()).sha;
-  } catch(e) {}
+  try { const ex = await fetch(`${apiUrl}?ref=${cfg.branch || 'main'}`, { headers }); if (ex.ok) sha = (await ex.json()).sha; } catch(e) {}
 
-  const body = {
-    message: 'Ažurirani koraci uputstva',
-    content: btoa(unescape(encodeURIComponent(JSON.stringify(steps, null, 2)))),
-    branch: cfg.branch || 'main'
-  };
+  const body = { message: 'Ažurirani koraci uputstva', content: btoa(unescape(encodeURIComponent(JSON.stringify(steps, null, 2)))), branch: cfg.branch || 'main' };
   if (sha) body.sha = sha;
 
   try {
     const res = await fetch(apiUrl, { method: 'PUT', headers, body: JSON.stringify(body) });
     if (!res.ok) throw new Error((await res.json()).message || 'GitHub API greška');
     showToast('✓ Sačuvano na GitHub! Deploy u toku (~30s)', 'success');
-  } catch(e) {
-    showToast('Greška: ' + e.message, 'error');
-  }
+  } catch(e) { showToast('Greška: ' + e.message, 'error'); }
 
   btn.disabled = false; btn.textContent = 'Sačuvaj na GitHub';
 }
 
 function showToast(msg, type) {
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'show ' + (type || '');
+  t.textContent = msg; t.className = 'show ' + (type || '');
   clearTimeout(window._toastTimer);
   window._toastTimer = setTimeout(() => t.className = '', 3500);
 }
