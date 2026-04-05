@@ -9,213 +9,307 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background: #f0f4f8;
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
+  overflow: hidden;
 }
-.card {
-  background: #fff;
-  border-radius: 20px;
-  box-shadow: 0 4px 40px rgba(0,0,0,0.10);
-  padding: 48px 44px;
-  max-width: 560px;
-  width: 100%;
-}
-.top-bar {
+
+.header {
+  background: #1a2332;
+  padding: 0 24px;
+  height: 52px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 36px;
+  flex-shrink: 0;
 }
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.logo-dot { width: 10px; height: 10px; border-radius: 50%; background: #1D9E75; }
-.logo-text { font-size: 14px; font-weight: 700; color: #1a2332; letter-spacing: 0.04em; }
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo-dot { width: 8px; height: 8px; border-radius: 50%; background: #1D9E75; }
+.logo-text { font-size: 13px; font-weight: 700; color: #fff; letter-spacing: 0.04em; }
+.header-right { display: flex; align-items: center; gap: 12px; }
+.step-counter { font-size: 12px; color: rgba(255,255,255,0.4); }
 .admin-link {
-  font-size: 12px;
-  color: #a0aec0;
-  text-decoration: none;
-  padding: 5px 12px;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  transition: all 0.15s;
+  font-size: 12px; color: rgba(255,255,255,0.5);
+  text-decoration: none; padding: 5px 12px;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 6px; transition: all 0.15s;
 }
-.admin-link:hover { color: #4a5568; border-color: #cbd5e0; }
+.admin-link:hover { color: #fff; border-color: rgba(255,255,255,0.4); }
 
-h1 { font-size: 28px; font-weight: 700; color: #1a2332; margin-bottom: 10px; line-height: 1.3; }
-.subtitle { font-size: 15px; color: #718096; line-height: 1.7; margin-bottom: 40px; }
-
-.steps { display: flex; flex-direction: column; gap: 22px; margin-bottom: 40px; }
-.step { display: flex; gap: 16px; }
-.step-num {
-  width: 32px; height: 32px; border-radius: 50%;
-  background: #E1F5EE; color: #0F6E56;
-  font-size: 13px; font-weight: 700;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; margin-top: 1px;
-}
-.step-content h3 { font-size: 14px; font-weight: 600; color: #1a2332; margin-bottom: 4px; }
-.step-content p { font-size: 13px; color: #718096; line-height: 1.6; }
-.step-content kbd {
-  display: inline-block;
-  background: #f4f6f9;
-  border: 1px solid #e2e8f0;
-  border-radius: 4px;
-  padding: 1px 6px;
-  font-size: 11px;
-  font-family: monospace;
-  color: #4a5568;
+.layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
 }
 
-.bookmark-wrap {
-  background: #f8fafc;
-  border: 2px dashed #cbd5e0;
-  border-radius: 14px;
-  padding: 24px;
-  text-align: center;
-  margin-bottom: 12px;
-  transition: border-color 0.2s;
-}
-.bookmark-wrap:hover { border-color: #1D9E75; }
-.bookmark-hint { font-size: 12px; color: #a0aec0; margin-bottom: 14px; }
-.bookmarklet-btn {
-  display: inline-block;
-  background: #1a2332;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 700;
-  padding: 13px 28px;
-  border-radius: 10px;
-  text-decoration: none;
-  cursor: grab;
-  transition: background 0.15s, transform 0.1s;
-  user-select: none;
-}
-.bookmarklet-btn:hover { background: #1D9E75; }
-.bookmarklet-btn:active { transform: scale(0.97); cursor: grabbing; }
-.drag-hint { font-size: 12px; color: #a0aec0; margin-top: 10px; }
-
-.divider { border: none; border-top: 1px solid #e8ecf0; margin: 28px 0; }
-
-.alt-title { font-size: 11px; font-weight: 700; color: #a0aec0; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
-.code-box {
-  background: #f4f6f9;
-  border-radius: 10px;
-  padding: 12px 14px;
-  font-family: monospace;
-  font-size: 11px;
-  color: #4a5568;
-  word-break: break-all;
-  line-height: 1.5;
-  border: 1px solid #e2e8f0;
-  max-height: 80px;
-  overflow-y: auto;
-}
-.copy-btn {
-  margin-top: 8px;
+.sidebar {
+  width: 260px;
   background: #fff;
-  border: 1px solid #e2e8f0;
-  color: #4a5568;
-  font-size: 13px;
-  padding: 8px 16px;
+  border-right: 1px solid #e8ecf0;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+.sidebar-inner { padding: 12px; }
+.module-label {
+  font-size: 10px; font-weight: 700;
+  color: #a0aec0; text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 10px 8px 4px;
+}
+.sidebar-step {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 10px;
   border-radius: 8px;
   cursor: pointer;
-  font-weight: 500;
-  width: 100%;
-  transition: background 0.15s;
+  transition: all 0.15s;
 }
-.copy-btn:hover { background: #f4f6f9; }
-.tip {
-  background: #FAEEDA;
-  border-radius: 10px;
-  padding: 12px 16px;
+.sidebar-step:hover { background: #f0faf6; }
+.sidebar-step.active { background: #E1F5EE; }
+.sidebar-step-num {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: #f0f4f8;
+  font-size: 10px; font-weight: 700;
+  color: #718096;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.sidebar-step.active .sidebar-step-num { background: #1D9E75; color: #fff; }
+.sidebar-step-title {
+  font-size: 12px; color: #4a5568;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.sidebar-step.active .sidebar-step-title { color: #0F6E56; font-weight: 600; }
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 28px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 860px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.module-badge {
+  display: inline-flex;
+  font-size: 11px; font-weight: 700;
+  padding: 4px 12px; border-radius: 20px;
+  background: #E1F5EE; color: #0F6E56;
+}
+
+.step-title {
+  font-size: 24px; font-weight: 700;
+  color: #1a2332; line-height: 1.3;
+}
+
+.image-area {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 180px;
+}
+.image-area img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+}
+.image-placeholder {
+  color: #cbd5e0;
   font-size: 13px;
-  color: #633806;
-  line-height: 1.6;
-  margin-top: 20px;
+  padding: 48px;
+  text-align: center;
+  line-height: 1.8;
+}
+
+.step-text {
+  font-size: 15px; color: #4a5568;
+  line-height: 1.85;
+}
+
+.nav-bar {
+  background: #fff;
+  border-top: 1px solid #e8ecf0;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+.progress-wrap { flex: 1; margin: 0 24px; }
+.progress-track {
+  height: 4px; background: #e8ecf0;
+  border-radius: 4px; overflow: hidden;
+}
+.progress-fill {
+  height: 100%; background: #1D9E75;
+  border-radius: 4px;
+  transition: width 0.35s ease;
+}
+.progress-label {
+  font-size: 11px; color: #a0aec0;
+  text-align: center; margin-top: 5px;
+}
+
+.btn {
+  padding: 9px 22px;
+  border-radius: 9px;
+  font-size: 13px; font-weight: 600;
+  cursor: pointer; border: none;
+  transition: all 0.15s;
+}
+.btn-prev {
+  background: #fff; color: #4a5568;
+  border: 1px solid #e2e8f0;
+}
+.btn-prev:hover:not(:disabled) { background: #f8fafc; }
+.btn-prev:disabled { opacity: 0.3; cursor: not-allowed; }
+.btn-next { background: #1D9E75; color: #fff; }
+.btn-next:hover { background: #0F6E56; }
+
+.loading-state {
+  display: flex; align-items: center; justify-content: center;
+  flex: 1; color: #a0aec0; font-size: 14px;
 }
 </style>
 </head>
 <body>
-<div class="card">
-  <div class="top-bar">
-    <div class="logo">
-      <div class="logo-dot"></div>
-      <span class="logo-text">NOTO TMS</span>
-    </div>
-    <a href="admin.html" class="admin-link">⚙ Admin panel</a>
+
+<div class="header">
+  <div class="logo">
+    <div class="logo-dot"></div>
+    <span class="logo-text">NOTO TMS — Uputstvo</span>
   </div>
+  <div class="header-right">
+    <span class="step-counter" id="counter"></span>
+    <a href="admin.html" class="admin-link">⚙ Admin</a>
+  </div>
+</div>
 
-  <h1>Interaktivno uputstvo</h1>
-  <p class="subtitle">Korak-po-korak vodič koji se prikazuje direktno unutar Noto TMS aplikacije, dok normalno radite.</p>
-
-  <div class="steps">
-    <div class="step">
-      <div class="step-num">1</div>
-      <div class="step-content">
-        <h3>Prevucite dugme u bookmark bar</h3>
-        <p>Kliknite i prevucite zeleno dugme ispod u bookmark bar (traku sa omiljenim stranicama). Jednom se radi, pa se koristi uvek.</p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <div class="step-content">
-        <h3>Otvorite Noto TMS</h3>
-        <p>Idite na <strong>noto-logistic-tms.azurewebsites.net</strong> i prijavite se kao i obično.</p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <div class="step-content">
-        <h3>Pokrenite uputstvo</h3>
-        <p>Kliknite na bookmark <strong>"Noto uputstvo"</strong> — vodič se pojavi odmah. Navigacija: <kbd>←</kbd> <kbd>→</kbd> strelice ili klik na dugmad. <kbd>Esc</kbd> zatvara.</p>
-      </div>
+<div class="layout">
+  <div class="sidebar">
+    <div class="sidebar-inner" id="sidebar-inner">
+      <div style="padding:20px;color:#a0aec0;font-size:12px;">Učitavam...</div>
     </div>
   </div>
-
-  <div class="bookmark-wrap">
-    <p class="bookmark-hint">↓ Prevucite ovo dugme u vaš bookmark bar ↓</p>
-    <a class="bookmarklet-btn" id="bookmarklet-link" href="#">⊕ Noto uputstvo</a>
-    <p class="drag-hint">Nakon prevlačenja, kliknite na bookmark dok ste na Noto TMS</p>
+  <div class="main">
+    <div class="content" id="content">
+      <div class="loading-state">Učitavam korake...</div>
+    </div>
+    <div class="nav-bar">
+      <button class="btn btn-prev" id="btn-prev" onclick="go(-1)" disabled>← Nazad</button>
+      <div class="progress-wrap">
+        <div class="progress-track">
+          <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+        </div>
+        <div class="progress-label" id="progress-label"></div>
+      </div>
+      <button class="btn btn-next" id="btn-next" onclick="go(1)">Sledeće →</button>
+    </div>
   </div>
-
-  <hr class="divider">
-
-  <p class="alt-title">Alternativno — konzola (F12)</p>
-  <div class="code-box" id="code-display">Učitavanje...</div>
-  <button class="copy-btn" onclick="copyCode()">Kopiraj kod</button>
-
-  <div class="tip">Uputstvo automatski preuzima najnovije korake svaki put kad ga pokrenete. Ako admin promeni korake — vi ih dobijate odmah, bez reinstalacije.</div>
 </div>
 
 <script>
-// PODESI OVE VREDNOSTI:
 const STEPS_URL = 'https://raw.githubusercontent.com/millosbgd/TMSGuideTour/main/steps.json';
 
-const bookmarkletCode = `(function(){
-  var s=document.createElement('script');
-  s.src='${window.location.origin}/bookmarklet.js?v='+Date.now();
-  document.body.appendChild(s);
-})()`;
+let steps = [];
+let current = 0;
 
-const fullCode = bookmarkletCode.trim();
-
-document.getElementById('bookmarklet-link').href = 'javascript:' + encodeURIComponent(fullCode);
-document.getElementById('code-display').textContent = fullCode;
-
-function copyCode() {
-  navigator.clipboard.writeText(fullCode).then(() => {
-    const btn = document.querySelector('.copy-btn');
-    btn.textContent = '✓ Kopirano!';
-    setTimeout(() => btn.textContent = 'Kopiraj kod', 2000);
-  });
+async function init() {
+  try {
+    const res = await fetch(STEPS_URL + '?v=' + Date.now());
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    steps = await res.json();
+    if (!steps.length) throw new Error('Nema koraka');
+    render();
+  } catch(e) {
+    document.getElementById('content').innerHTML = `<div class="loading-state">⚠ Greška pri učitavanju koraka.<br><small style="color:#cbd5e0;margin-top:8px;display:block;">${e.message}</small></div>`;
+    document.getElementById('sidebar-inner').innerHTML = '';
+  }
 }
+
+function renderSidebar() {
+  const el = document.getElementById('sidebar-inner');
+  const groups = {};
+  steps.forEach((s, i) => {
+    const m = s.module || 'Opšte';
+    if (!groups[m]) groups[m] = [];
+    groups[m].push({ ...s, idx: i });
+  });
+
+  el.innerHTML = Object.entries(groups).map(([module, stps]) => `
+    <div class="module-label">${module}</div>
+    ${stps.map(s => `
+      <div class="sidebar-step ${s.idx === current ? 'active' : ''}" onclick="goTo(${s.idx})">
+        <div class="sidebar-step-num">${s.idx + 1}</div>
+        <div class="sidebar-step-title">${s.title}</div>
+      </div>
+    `).join('')}
+  `).join('');
+}
+
+function render() {
+  const s = steps[current];
+  const total = steps.length;
+
+  document.getElementById('counter').textContent = `${current + 1} / ${total}`;
+  document.getElementById('progress-fill').style.width = ((current + 1) / total * 100) + '%';
+  document.getElementById('progress-label').textContent = `Korak ${current + 1} od ${total}`;
+  document.getElementById('btn-prev').disabled = current === 0;
+  document.getElementById('btn-next').textContent = current === total - 1 ? 'Završi ✓' : 'Sledeće →';
+
+  document.getElementById('content').innerHTML = `
+    <div><span class="module-badge">${s.module || 'Opšte'}</span></div>
+    <h1 class="step-title">${s.title}</h1>
+    <div class="image-area">
+      ${s.image
+        ? `<img src="${s.image}" alt="${s.title}" onerror="this.parentElement.innerHTML='<div class=\'image-placeholder\'>Slika nije dostupna</div>'">`
+        : `<div class="image-placeholder">📷 Screenshot još nije dodat za ovaj korak</div>`
+      }
+    </div>
+    <p class="step-text">${s.text}</p>
+  `;
+
+  renderSidebar();
+  document.querySelector('.sidebar-step.active')?.scrollIntoView({ block: 'nearest' });
+}
+
+function go(dir) {
+  const next = current + dir;
+  if (next >= 0 && next < steps.length) {
+    current = next;
+    render();
+    document.getElementById('content').scrollTop = 0;
+  }
+}
+
+function goTo(idx) {
+  current = idx;
+  render();
+  document.getElementById('content').scrollTop = 0;
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') go(1);
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') go(-1);
+});
+
+init();
 </script>
 </body>
 </html>

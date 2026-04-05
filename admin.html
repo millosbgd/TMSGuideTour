@@ -13,7 +13,7 @@ body {
   padding: 2rem;
 }
 .header {
-  max-width: 860px;
+  max-width: 960px;
   margin: 0 auto 28px;
   display: flex;
   align-items: center;
@@ -38,7 +38,7 @@ body {
 .save-btn:hover { background: #0F6E56; }
 .save-btn:disabled { background: #a0aec0; cursor: not-allowed; }
 
-.main { max-width: 860px; margin: 0 auto; display: grid; grid-template-columns: 1fr 300px; gap: 20px; align-items: start; }
+.main { max-width: 960px; margin: 0 auto; display: grid; grid-template-columns: 1fr 310px; gap: 20px; align-items: start; }
 
 .panel {
   background: #fff; border-radius: 16px;
@@ -51,6 +51,7 @@ body {
   display: flex; align-items: center; justify-content: space-between;
 }
 .panel-title { font-size: 14px; font-weight: 600; color: #1a2332; }
+.step-count { font-size: 12px; color: #a0aec0; }
 .add-btn {
   font-size: 12px; font-weight: 600;
   color: #1D9E75; background: #E1F5EE;
@@ -69,7 +70,6 @@ body {
   padding: 12px 14px;
   cursor: default;
   transition: border-color 0.15s;
-  position: relative;
 }
 .step-item:hover { border-color: #cbd5e0; }
 .step-item.selected { border-color: #1D9E75; background: #f0faf6; }
@@ -80,6 +80,10 @@ body {
   font-size: 10px; font-weight: 700;
   padding: 2px 8px; border-radius: 20px;
   background: #E1F5EE; color: #0F6E56;
+  flex-shrink: 0;
+}
+.step-has-image {
+  font-size: 10px; color: #1D9E75;
   flex-shrink: 0;
 }
 .step-item-title { font-size: 13px; font-weight: 500; color: #1a2332; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -110,7 +114,7 @@ input[type="text"], select, textarea {
   outline: none;
 }
 input[type="text"]:focus, select:focus, textarea:focus { border-color: #1D9E75; }
-textarea { min-height: 100px; resize: vertical; line-height: 1.6; }
+textarea { min-height: 90px; resize: vertical; line-height: 1.6; }
 .no-selection {
   padding: 32px 20px;
   text-align: center;
@@ -119,8 +123,49 @@ textarea { min-height: 100px; resize: vertical; line-height: 1.6; }
   line-height: 1.7;
 }
 
-/* GitHub config */
-.config-panel { background: #fff; border-radius: 16px; box-shadow: 0 2px 16px rgba(0,0,0,0.07); padding: 20px; }
+/* Image upload */
+.image-upload-area {
+  border: 2px dashed #e2e8f0;
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+  transition: border-color 0.15s;
+  cursor: pointer;
+  position: relative;
+}
+.image-upload-area:hover { border-color: #1D9E75; }
+.image-upload-area.has-image { border-style: solid; border-color: #1D9E75; padding: 0; overflow: hidden; }
+.image-upload-area img {
+  width: 100%; height: auto;
+  display: block; border-radius: 8px;
+}
+.image-upload-hint { font-size: 12px; color: #a0aec0; line-height: 1.7; }
+.image-upload-hint strong { display: block; font-size: 13px; color: #4a5568; margin-bottom: 4px; }
+input[type="file"] { display: none; }
+.image-actions { display: flex; gap: 6px; margin-top: 8px; }
+.img-btn {
+  flex: 1; font-size: 11px; font-weight: 600;
+  padding: 6px; border-radius: 6px;
+  cursor: pointer; border: 1px solid #e2e8f0;
+  background: #fff; color: #4a5568;
+  transition: background 0.15s;
+}
+.img-btn:hover { background: #f4f6f9; }
+.img-btn.remove { color: #e24b4a; border-color: #FCEBEB; }
+.img-btn.remove:hover { background: #FCEBEB; }
+.upload-progress {
+  font-size: 11px; color: #1D9E75;
+  text-align: center; padding: 8px 0 0;
+  display: none;
+}
+
+/* Config panels */
+.config-panel {
+  background: #fff; border-radius: 16px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+  padding: 20px;
+  margin-bottom: 16px;
+}
 .config-title { font-size: 13px; font-weight: 600; color: #1a2332; margin-bottom: 16px; }
 .config-field { margin-bottom: 12px; }
 .config-label { font-size: 11px; font-weight: 600; color: #a0aec0; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.04em; }
@@ -142,7 +187,7 @@ textarea { min-height: 100px; resize: vertical; line-height: 1.6; }
 }
 .config-save-btn:hover { background: #e8ecf0; }
 
-/* Status toast */
+/* Toast */
 #toast {
   position: fixed; bottom: 24px; right: 24px;
   background: #1a2332; color: #fff;
@@ -155,8 +200,6 @@ textarea { min-height: 100px; resize: vertical; line-height: 1.6; }
 #toast.show { transform: translateY(0); opacity: 1; }
 #toast.success { background: #0F6E56; }
 #toast.error { background: #A32D2D; }
-
-.step-count { font-size: 12px; color: #a0aec0; }
 </style>
 </head>
 <body>
@@ -167,7 +210,7 @@ textarea { min-height: 100px; resize: vertical; line-height: 1.6; }
     <span class="logo-text">NOTO TMS — Admin panel</span>
   </div>
   <div class="header-right">
-    <a href="index.html" class="back-link">← Nazad na installer</a>
+    <a href="index.html" class="back-link">← Nazad na uputstvo</a>
     <button class="save-btn" onclick="saveToGitHub()">Sačuvaj na GitHub</button>
   </div>
 </div>
@@ -181,8 +224,8 @@ textarea { min-height: 100px; resize: vertical; line-height: 1.6; }
     <div id="steps-list"></div>
   </div>
 
-  <div style="display:flex;flex-direction:column;gap:16px;">
-    <div class="panel" id="edit-panel">
+  <div style="display:flex;flex-direction:column;gap:0;">
+    <div class="panel" id="edit-panel" style="margin-bottom:16px;">
       <div class="panel-header"><span class="panel-title">Uredi korak</span></div>
       <div class="no-selection" id="no-selection">Kliknite na korak da ga uredite</div>
       <div class="edit-panel-inner" id="edit-fields" style="display:none;">
@@ -205,19 +248,52 @@ textarea { min-height: 100px; resize: vertical; line-height: 1.6; }
           <label>Tekst uputstva</label>
           <textarea id="edit-text" placeholder="Opis šta korisnik treba da uradi..."></textarea>
         </div>
+        <div class="field-group">
+          <label>Screenshot</label>
+          <div class="image-upload-area" id="upload-area" onclick="document.getElementById('file-input').click()">
+            <div class="image-upload-hint">
+              <strong>Kliknite da dodate sliku</strong>
+              PNG, JPG — screenshot iz Noto TMS
+            </div>
+          </div>
+          <input type="file" id="file-input" accept="image/*" onchange="handleImageSelect(this)">
+          <div class="upload-progress" id="upload-progress">Uploading...</div>
+          <div class="image-actions" id="image-actions" style="display:none;">
+            <button class="img-btn" onclick="document.getElementById('file-input').click()">Zameni sliku</button>
+            <button class="img-btn remove" onclick="removeImage()">Ukloni</button>
+          </div>
+        </div>
         <button class="save-btn" style="width:100%;" onclick="applyEdit()">Primeni izmenu</button>
       </div>
+    </div>
+
+    <div class="config-panel">
+      <div class="config-title">☁ Azure Blob Storage</div>
+      <div class="config-field">
+        <div class="config-label">Storage account naziv</div>
+        <input class="config-input" id="cfg-az-account" placeholder="tmsguidetourstorage">
+      </div>
+      <div class="config-field">
+        <div class="config-label">Container naziv</div>
+        <input class="config-input" id="cfg-az-container" placeholder="screenshots">
+      </div>
+      <div class="config-field">
+        <div class="config-label">SAS Token</div>
+        <input class="config-input" id="cfg-az-sas" type="password" placeholder="sv=2022-...">
+        <div class="config-hint">Generišite u Azure portalu → Storage account → Shared access signature. Scope: Container, Dozvole: Write + Create.</div>
+      </div>
+      <button class="config-save-btn" onclick="saveAzureConfig()">Sačuvaj Azure podešavanja</button>
     </div>
 
     <div class="config-panel">
       <div class="config-title">⚙ GitHub podešavanja</div>
       <div class="config-field">
         <div class="config-label">GitHub korisnik</div>
-        <input class="config-input" id="cfg-user" placeholder="vaš-username">
+        <input class="config-input" id="cfg-user" placeholder="millosbgd">
       </div>
       <div class="config-field">
         <div class="config-label">Repo naziv</div>
-        <input class="config-input" id="cfg-repo" placeholder="noto-tour">
+        <input class="config-input" id="cfg-repo" placeholder="TMSGuideTour">
       </div>
       <div class="config-field">
         <div class="config-label">Branch</div>
@@ -226,9 +302,9 @@ textarea { min-height: 100px; resize: vertical; line-height: 1.6; }
       <div class="config-field">
         <div class="config-label">Personal Access Token</div>
         <input class="config-input" id="cfg-token" type="password" placeholder="ghp_...">
-        <div class="config-hint">Token sa repo scope pravima. Čuva se samo u vašem browseru (localStorage).</div>
+        <div class="config-hint">Token sa repo scope pravima. Čuva se samo u browseru (localStorage).</div>
       </div>
-      <button class="config-save-btn" onclick="saveConfig()">Sačuvaj podešavanja</button>
+      <button class="config-save-btn" onclick="saveConfig()">Sačuvaj GitHub podešavanja</button>
     </div>
   </div>
 </div>
@@ -238,14 +314,20 @@ textarea { min-height: 100px; resize: vertical; line-height: 1.6; }
 <script>
 let steps = [];
 let selectedIdx = null;
+let currentImageUrl = null;
 
-// Učitaj config iz localStorage
+// --- Config ---
 function loadConfig() {
   const cfg = JSON.parse(localStorage.getItem('noto_cfg') || '{}');
-  document.getElementById('cfg-user').value = cfg.user || '';
-  document.getElementById('cfg-repo').value = cfg.repo || '';
+  document.getElementById('cfg-user').value = cfg.user || 'millosbgd';
+  document.getElementById('cfg-repo').value = cfg.repo || 'TMSGuideTour';
   document.getElementById('cfg-branch').value = cfg.branch || 'main';
   document.getElementById('cfg-token').value = cfg.token || '';
+
+  const az = JSON.parse(localStorage.getItem('noto_az') || '{}');
+  document.getElementById('cfg-az-account').value = az.account || 'tmsguidetourstorage';
+  document.getElementById('cfg-az-container').value = az.container || 'screenshots';
+  document.getElementById('cfg-az-sas').value = az.sas || '';
 }
 
 function saveConfig() {
@@ -256,40 +338,103 @@ function saveConfig() {
     token: document.getElementById('cfg-token').value.trim()
   };
   localStorage.setItem('noto_cfg', JSON.stringify(cfg));
-  showToast('Podešavanja sačuvana', 'success');
+  showToast('GitHub podešavanja sačuvana', 'success');
 }
 
-function getConfig() {
-  return JSON.parse(localStorage.getItem('noto_cfg') || '{}');
+function saveAzureConfig() {
+  const az = {
+    account: document.getElementById('cfg-az-account').value.trim(),
+    container: document.getElementById('cfg-az-container').value.trim(),
+    sas: document.getElementById('cfg-az-sas').value.trim()
+  };
+  localStorage.setItem('noto_az', JSON.stringify(az));
+  showToast('Azure podešavanja sačuvana', 'success');
 }
 
-// Učitaj steps.json sa GitHub raw
-async function loadSteps() {
-  const cfg = getConfig();
-  if (!cfg.user || !cfg.repo) {
-    // Učitaj lokalne demo korake
-    const res = await fetch('steps.json').catch(() => null);
-    if (res && res.ok) steps = await res.json();
-    else steps = [];
-    renderList();
+function getConfig() { return JSON.parse(localStorage.getItem('noto_cfg') || '{}'); }
+function getAzureConfig() { return JSON.parse(localStorage.getItem('noto_az') || '{}'); }
+
+// --- Image upload ---
+async function handleImageSelect(input) {
+  const file = input.files[0];
+  if (!file) return;
+
+  const az = getAzureConfig();
+  if (!az.account || !az.container || !az.sas) {
+    showToast('Popunite Azure Blob Storage podešavanja', 'error');
     return;
   }
-  const url = `https://raw.githubusercontent.com/${cfg.user}/${cfg.repo}/${cfg.branch || 'main'}/steps.json?v=${Date.now()}`;
+
+  const progress = document.getElementById('upload-progress');
+  progress.textContent = 'Uploading...';
+  progress.style.display = 'block';
+
+  try {
+    const ext = file.name.split('.').pop().toLowerCase();
+    const filename = `step-${Date.now()}.${ext}`;
+    const sas = az.sas.startsWith('?') ? az.sas.slice(1) : az.sas;
+    const uploadUrl = `https://${az.account}.blob.core.windows.net/${az.container}/${filename}?${sas}`;
+
+    const res = await fetch(uploadUrl, {
+      method: 'PUT',
+      headers: {
+        'x-ms-blob-type': 'BlockBlob',
+        'Content-Type': file.type
+      },
+      body: file
+    });
+
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+
+    currentImageUrl = `https://${az.account}.blob.core.windows.net/${az.container}/${filename}`;
+    showImagePreview(currentImageUrl);
+    progress.style.display = 'none';
+    showToast('Slika uploadovana', 'success');
+  } catch(e) {
+    progress.style.display = 'none';
+    showToast('Greška pri uploadu: ' + e.message, 'error');
+  }
+
+  input.value = '';
+}
+
+function showImagePreview(url) {
+  const area = document.getElementById('upload-area');
+  area.classList.add('has-image');
+  area.innerHTML = `<img src="${url}" alt="Preview">`;
+  area.onclick = null;
+  document.getElementById('image-actions').style.display = 'flex';
+}
+
+function removeImage() {
+  currentImageUrl = null;
+  const area = document.getElementById('upload-area');
+  area.classList.remove('has-image');
+  area.innerHTML = `<div class="image-upload-hint"><strong>Kliknite da dodate sliku</strong>PNG, JPG — screenshot iz Noto TMS</div>`;
+  area.onclick = () => document.getElementById('file-input').click();
+  document.getElementById('image-actions').style.display = 'none';
+}
+
+// --- Steps ---
+async function loadSteps() {
+  const cfg = getConfig();
+  const url = cfg.user && cfg.repo
+    ? `https://raw.githubusercontent.com/${cfg.user}/${cfg.repo}/${cfg.branch || 'main'}/steps.json?v=${Date.now()}`
+    : 'steps.json';
   try {
     const res = await fetch(url);
     if (!res.ok) throw new Error('HTTP ' + res.status);
     steps = await res.json();
-  } catch (e) {
+  } catch(e) {
     steps = [];
-    showToast('Nije moguće učitati steps.json sa GitHub-a', 'error');
+    if (cfg.user) showToast('Nije moguće učitati steps.json', 'error');
   }
   renderList();
 }
 
 function renderList() {
   const list = document.getElementById('steps-list');
-  const count = document.getElementById('step-count');
-  count.textContent = `(${steps.length})`;
+  document.getElementById('step-count').textContent = `(${steps.length})`;
 
   if (!steps.length) {
     list.innerHTML = '<div style="padding:24px;text-align:center;color:#a0aec0;font-size:13px;">Nema koraka. Dodajte prvi korak →</div>';
@@ -305,6 +450,7 @@ function renderList() {
       <div class="step-item-header">
         <span class="step-drag" title="Prevuci za promenu redosleda">⠿</span>
         <span class="step-module-badge">${s.module || 'Opšte'}</span>
+        ${s.image ? '<span class="step-has-image">📷</span>' : ''}
         <span class="step-item-title">${i + 1}. ${s.title}</span>
         <div class="step-actions">
           <button class="step-action-btn edit" title="Uredi" onclick="selectStep(${i})">✎</button>
@@ -314,7 +460,6 @@ function renderList() {
     `;
     list.appendChild(item);
   });
-
   initDragSort();
 }
 
@@ -326,6 +471,13 @@ function selectStep(idx) {
   document.getElementById('edit-module').value = s.module || 'Opšte';
   document.getElementById('edit-title').value = s.title;
   document.getElementById('edit-text').value = s.text;
+
+  currentImageUrl = s.image || null;
+  if (s.image) {
+    showImagePreview(s.image);
+  } else {
+    removeImage();
+  }
   renderList();
 }
 
@@ -335,20 +487,15 @@ function applyEdit() {
     id: steps[selectedIdx].id,
     module: document.getElementById('edit-module').value,
     title: document.getElementById('edit-title').value.trim(),
-    text: document.getElementById('edit-text').value.trim()
+    text: document.getElementById('edit-text').value.trim(),
+    ...(currentImageUrl ? { image: currentImageUrl } : {})
   };
   renderList();
   showToast('Korak izmenjen (nije još sačuvan na GitHub)', '');
 }
 
 function addStep() {
-  const newStep = {
-    id: Date.now(),
-    module: 'Pošiljke',
-    title: 'Novi korak',
-    text: 'Unesite opis...'
-  };
-  steps.push(newStep);
+  steps.push({ id: Date.now(), module: 'Pošiljke', title: 'Novi korak', text: 'Unesite opis...' });
   selectedIdx = steps.length - 1;
   renderList();
   selectStep(selectedIdx);
@@ -367,30 +514,19 @@ function deleteStep(idx) {
   renderList();
 }
 
-// Drag & drop sort
+// --- Drag sort ---
 function initDragSort() {
   const list = document.getElementById('steps-list');
   let dragging = null;
 
   list.querySelectorAll('.step-item').forEach(item => {
-    item.querySelector('.step-drag').addEventListener('mousedown', () => {
-      item.draggable = true;
-    });
-    item.addEventListener('dragstart', e => {
-      dragging = item;
-      setTimeout(() => item.style.opacity = '0.4', 0);
-    });
-    item.addEventListener('dragend', () => {
-      item.style.opacity = '1';
-      item.draggable = false;
-      dragging = null;
-      rebuildOrder();
-    });
+    item.querySelector('.step-drag').addEventListener('mousedown', () => { item.draggable = true; });
+    item.addEventListener('dragstart', () => { dragging = item; setTimeout(() => item.style.opacity = '0.4', 0); });
+    item.addEventListener('dragend', () => { item.style.opacity = '1'; item.draggable = false; dragging = null; rebuildOrder(); });
     item.addEventListener('dragover', e => {
       e.preventDefault();
       if (dragging && dragging !== item) {
-        const rect = item.getBoundingClientRect();
-        const mid = rect.top + rect.height / 2;
+        const mid = item.getBoundingClientRect().top + item.getBoundingClientRect().height / 2;
         if (e.clientY < mid) list.insertBefore(dragging, item);
         else list.insertBefore(dragging, item.nextSibling);
       }
@@ -399,11 +535,9 @@ function initDragSort() {
 }
 
 function rebuildOrder() {
-  const list = document.getElementById('steps-list');
   const newSteps = [];
-  list.querySelectorAll('.step-item').forEach(item => {
-    const idx = parseInt(item.dataset.idx);
-    newSteps.push(steps[idx]);
+  document.getElementById('steps-list').querySelectorAll('.step-item').forEach(item => {
+    newSteps.push(steps[parseInt(item.dataset.idx)]);
   });
   steps = newSteps;
   selectedIdx = null;
@@ -412,61 +546,42 @@ function rebuildOrder() {
   renderList();
 }
 
-// Sačuvaj na GitHub
+// --- Save to GitHub ---
 async function saveToGitHub() {
   const cfg = getConfig();
   if (!cfg.user || !cfg.repo || !cfg.token) {
-    showToast('Popunite GitHub podešavanja (desno)', 'error');
+    showToast('Popunite GitHub podešavanja', 'error');
     return;
   }
 
-  const btn = document.querySelector('.save-btn');
-  btn.disabled = true;
-  btn.textContent = 'Čuvam...';
+  const btn = document.querySelector('.header-right .save-btn');
+  btn.disabled = true; btn.textContent = 'Čuvam...';
 
-  const path = 'steps.json';
-  const apiUrl = `https://api.github.com/repos/${cfg.user}/${cfg.repo}/contents/${path}`;
-  const headers = {
-    'Authorization': `Bearer ${cfg.token}`,
-    'Accept': 'application/vnd.github+json',
-    'Content-Type': 'application/json'
-  };
+  const apiUrl = `https://api.github.com/repos/${cfg.user}/${cfg.repo}/contents/steps.json`;
+  const headers = { 'Authorization': `Bearer ${cfg.token}`, 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' };
 
-  // Uzmi trenutni SHA (potreban za update)
   let sha = null;
   try {
-    const existing = await fetch(`${apiUrl}?ref=${cfg.branch || 'main'}`, { headers });
-    if (existing.ok) {
-      const data = await existing.json();
-      sha = data.sha;
-    }
-  } catch (e) {}
+    const ex = await fetch(`${apiUrl}?ref=${cfg.branch || 'main'}`, { headers });
+    if (ex.ok) sha = (await ex.json()).sha;
+  } catch(e) {}
 
-  const content = btoa(unescape(encodeURIComponent(JSON.stringify(steps, null, 2))));
   const body = {
     message: 'Ažurirani koraci uputstva',
-    content,
+    content: btoa(unescape(encodeURIComponent(JSON.stringify(steps, null, 2)))),
     branch: cfg.branch || 'main'
   };
   if (sha) body.sha = sha;
 
   try {
-    const res = await fetch(apiUrl, {
-      method: 'PUT',
-      headers,
-      body: JSON.stringify(body)
-    });
-    if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err.message || 'GitHub API greška');
-    }
+    const res = await fetch(apiUrl, { method: 'PUT', headers, body: JSON.stringify(body) });
+    if (!res.ok) throw new Error((await res.json()).message || 'GitHub API greška');
     showToast('✓ Sačuvano na GitHub! Deploy u toku (~30s)', 'success');
-  } catch (e) {
+  } catch(e) {
     showToast('Greška: ' + e.message, 'error');
   }
 
-  btn.disabled = false;
-  btn.textContent = 'Sačuvaj na GitHub';
+  btn.disabled = false; btn.textContent = 'Sačuvaj na GitHub';
 }
 
 function showToast(msg, type) {
@@ -477,7 +592,6 @@ function showToast(msg, type) {
   window._toastTimer = setTimeout(() => t.className = '', 3500);
 }
 
-// Init
 loadConfig();
 loadSteps();
 </script>
