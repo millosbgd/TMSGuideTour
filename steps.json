@@ -1,9 +1,9 @@
 [
   {
     "id": 1,
-    "title": "Lista pošiljki",
-    "text": "Ovde se prikazuju sve pošiljke. Koristite filter polja iznad svake kolone za pretragu po broju, statusu ili klijentu. Ukupan broj pošiljki vidite u zaglavlju.",
-    "module": "Pošiljke"
+    "module": "Pošiljke",
+    "title": "Lista pošiljki_mmmm",
+    "text": "Ovde se prikazuju sve pošiljke. Koristite filter polja iznad svake kolone za pretragu po broju, statusu ili klijentu. Ukupan broj pošiljki vidite u zaglavlju."
   },
   {
     "id": 2,
